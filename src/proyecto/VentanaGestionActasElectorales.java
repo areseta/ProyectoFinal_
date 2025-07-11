@@ -57,7 +57,7 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
                     acta.getObservaciones()
             });
     }
-}
+} //aaaa
     
     /**
      * This method is called from within the constructor to initialize the form.
