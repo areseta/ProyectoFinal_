@@ -13,12 +13,17 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
 
-          GestionarMesasElectorales gestor;
-          DefaultTableModel modeloTabla;
+        private GestionarCandidato gestorCandidato = new GestionarCandidato();
+        private GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+        private GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+        private GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+        private GestionarElecciones gestorElecciones = new GestionarElecciones();
+        private GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+        private DefaultTableModel modeloTabla;
           
           
     public VentanaGestionMesasElectorales(GestionarMesasElectorales gestor) {
-        this.gestor = gestor;
+        this.gestorMesas = gestor;
         initComponents();
         
             modeloTabla = new DefaultTableModel();
@@ -32,11 +37,28 @@ public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
             modeloTabla.addColumn("Apellido del Vocal");
 
            VisualizacionMesasElectorales.setModel(modeloTabla);
-        
+           
     }
 
-    
-    
+    private void actualizarTabla() {
+        modeloTabla.setRowCount(0); // Limpiar tabla
+
+        for (int i = 0; i < gestorMesas .getPuntero(); i++) {
+            MesaElectoral mesa = gestorMesas .getMesa(i);
+
+            modeloTabla.addRow(new Object[]{
+                mesa.getCodigo(),
+                mesa.getUbicacion(),
+                mesa.getPresidente().getNombre(),
+                mesa.getPresidente().getApellido(),
+                mesa.getSecretario().getNombre(),
+                mesa.getSecretario().getApellido(),
+                mesa.getVocal().getNombre(),
+                mesa.getVocal().getApellido()
+            });
+        }
+    }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -315,8 +337,10 @@ public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         // TODO add your handling code here:
         
-         new MenuOperador().setVisible(true);
-         this.dispose();
+        new MenuOperador(gestorCandidato, gestorPartido, gestorMesas, 
+         gestorMiembros, gestorElecciones, gestorActas).setVisible(true);
+
+        this.dispose();
          
     }//GEN-LAST:event_VolverActionPerformed
 
@@ -348,7 +372,7 @@ public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
             MiembroMesa secretario = new MiembroMesa(nombreSecretario, apellidoSecretario, dniSecretario, "Secretario");
             MiembroMesa vocal = new MiembroMesa(nombreVocal, apellidoVocal, dniVocal, "Vocal");
 
-            gestor.modificarMesa(codigo, ubicacion, presidente, secretario, vocal);
+            gestorMesas .modificarMesa(codigo, ubicacion, presidente, secretario, vocal);
 
             JOptionPane.showMessageDialog(this, "Mesa modificada correctamente.");
 
@@ -362,15 +386,15 @@ public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
          
             if (!codigo.isEmpty()) 
             {
-                gestor.eliminarMesa(codigo);
-                actualizarTabla();
+               gestorMesas .eliminarMesa(codigo);
+                
                 JOptionPane.showMessageDialog(this, "Candidato eliminado (si existía)");
             } 
             else 
             {
                 JOptionPane.showMessageDialog(this, "Por favor, ingresa un Código para eliminar.");
              }
-        
+          actualizarTabla();
         
     }//GEN-LAST:event_EliminarActionPerformed
 
@@ -407,20 +431,20 @@ public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
 
                 MesaElectoral nuevaMesa = new MesaElectoral(codigo, ubicacion, presidente, secretario, vocal);
 
-                gestor.registrarMesa(nuevaMesa);
+                this.gestorMesas .registrarMesaElectoral(nuevaMesa);
                 JOptionPane.showMessageDialog(this, "Mesa registrada correctamente.");
 
 
-            Codigo.setText("");
-            Ubicacion.setText("");
-            PresidenteNombre.setText("");
-            PresidenteApellido.setText("");
-            SecretarioNombre.setText("");
-            SecretarioApellido.setText("");
-            VocalNombre.setText("");
-            VocalApellido.setText("");
+                Codigo.setText("");
+                Ubicacion.setText("");
+                PresidenteNombre.setText("");
+                PresidenteApellido.setText("");
+                SecretarioNombre.setText("");
+                SecretarioApellido.setText("");
+                VocalNombre.setText("");
+                VocalApellido.setText("");
 
-            actualizarTabla();            
+                actualizarTabla();            
 
     }//GEN-LAST:event_RegistrarActionPerformed
 
@@ -494,8 +518,4 @@ public class VentanaGestionMesasElectorales extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
-    
-    
-}
-}
 }

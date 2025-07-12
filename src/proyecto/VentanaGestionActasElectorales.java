@@ -17,8 +17,15 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
      * Creates new form VentanaGestionActasElectorales
      */
     
-            private GestionarActasElectorales gestorActas;
-            private DefaultTableModel modeloTabla;
+        private GestionarCandidato gestorCandidato = new GestionarCandidato();
+        private GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+        private GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+        private GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+        private GestionarElecciones gestorElecciones = new GestionarElecciones();
+        private GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+        private DefaultTableModel modeloTabla;
+            
+            
 
 
     public VentanaGestionActasElectorales() {
@@ -360,6 +367,9 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
 
     private void RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarActionPerformed
         // TODO add your handling code here:
+        
+           this.gestorMesas = new GestionarMesasElectorales(); 
+           
            String titulo = this.Titulo.getText().trim();
            String fecha = this.Fecha.getText().trim();
            String hora = this.Hora.getText().trim();
@@ -370,7 +380,7 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
            String firma = this.Firma.isSelected() ? "Firma" : "";
            String sello = this.Sello.isSelected() ? "Sello" : "";       
            
-           // para llenar creo?
+    
            
            //para que solo escriban numeros 
            int totalRegistrados = 0;
@@ -391,12 +401,13 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
                         return;
                     }
                     
-             //   ActaElectoral nuevaActa = new ActaElectoral(titulo, fecha, hora, lugar, mesa, totalRegistrados);
+                ActaElectoral nuevaActa = new ActaElectoral(titulo, fecha, hora, lugar, mesa, totalRegistrados);
                 nuevaActa.setFirma(firma);
                 nuevaActa.setSello(sello);
                 nuevaActa.setObservaciones(observaciones);
+                this.gestorActas.registrarActa(nuevaActa);
 
-             //   gestorActas.MeterActa(nuevaActa);
+
                 JOptionPane.showMessageDialog(this, "Acta registrada correctamente.");
 
 
@@ -416,18 +427,32 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         // TODO add your handling code here:
+            String codigoMesa = this.CodigoMesa.getText().trim();
+
+            if (codigoMesa.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Ingrese el código de mesa del acta a eliminar.");
+                return;
+            }
+
+            gestorActas.eliminarActa(codigoMesa);
+            JOptionPane.showMessageDialog(this, "Acta eliminada correctamente.");
+            actualizarTabla();
+          
+        
     }//GEN-LAST:event_EliminarActionPerformed
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         // TODO add your handling code here:
-         new MenuOperador().setVisible(true);
-         this.dispose();
-        
+                new MenuOperador(gestorCandidato, gestorPartido, gestorMesas, 
+                 gestorMiembros, gestorElecciones, gestorActas).setVisible(true);
+
+                this.dispose();
         
     }//GEN-LAST:event_VolverActionPerformed
 
     private void ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarActionPerformed
         // TODO add your handling code here:
+        
         String titulo = this.Titulo.getText().trim();
         String fecha = this.Fecha.getText().trim();
         String hora = this.Hora.getText().trim();
@@ -437,16 +462,21 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
         String firma = this.Firma.isSelected() ? "Sí" : "";
         String sello = this.Sello.isSelected() ? "Sí" : "";
 
-        int totalRegistrados = 0;
+        int totalRegistrados;
         try 
         {
             totalRegistrados = Integer.parseInt(this.TotalRegistrados.getText().trim());
-        } catch (NumberFormatException e) {
+        } 
+        
+        // para que solo acepte numeros:
+        catch (NumberFormatException e) 
+        {
             JOptionPane.showMessageDialog(this, "Total registrados debe ser un número.");
             return;
         }
 
-        
+        this.gestorActas.modificarActa(codigoMesa, titulo, fecha, hora, lugar, totalRegistrados, firma, sello, observaciones);  
+
         MesaElectoral mesa = gestorMesas.buscarMesaPorCodigo(codigoMesa);
                 if (mesa == null)
                 {
@@ -454,12 +484,6 @@ public class VentanaGestionActasElectorales extends javax.swing.JFrame {
                     return;
                 }
                 
-        ActaElectoral nueva = new ActaElectoral(titulo, fecha, hora, lugar, mesa, totalRegistrados);
-        nueva.setObservaciones(observaciones);
-        nueva.setFirma(firma);
-        nueva.setSello(sello);
-
-        this.gestorActas.registrarActa(nueva);
         JOptionPane.showMessageDialog(this, "Acta registrada correctamente.");
         actualizarTabla();
         

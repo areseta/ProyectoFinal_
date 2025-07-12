@@ -18,12 +18,17 @@ public class VentanaGestionElecciones extends javax.swing.JFrame {
      * Creates new form VentanaGestionElecciones2
      */
 
-         GestionarElecciones gestorElecciones = new GestionarElecciones();
-         DefaultTableModel modeloElecciones;
+        private GestionarCandidato gestorCandidato = new GestionarCandidato();
+        private GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+        private GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+        private GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+        private GestionarElecciones gestorElecciones = new GestionarElecciones();
+        private GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+        private DefaultTableModel modeloElecciones;
          
-    public VentanaGestionElecciones() {
+    public VentanaGestionElecciones(GestionarElecciones gestor) {
         initComponents();
-       
+        this.gestorElecciones= gestor; 
 
         modeloElecciones = new DefaultTableModel();
         modeloElecciones.addColumn("Fecha");
@@ -31,24 +36,22 @@ public class VentanaGestionElecciones extends javax.swing.JFrame {
         modeloElecciones.addColumn("Candidato");
 
         Visualizacion.setModel(modeloElecciones);
-        
+        actualizarTabla();
     }
 
-     private void actualizarTabla() {
-        modeloElecciones.setRowCount(0);
-        
-        
-        Eleccion[] lista = gestorElecciones.getArrayElecciones();
-         int total = gestorElecciones.getPuntero();
+private void actualizarTabla() {
+    modeloElecciones.setRowCount(0);
+    Eleccion[] lista = gestorElecciones.getArrayElecciones();
+    int total = gestorElecciones.getPuntero();
 
-        for (int i = 0; i < total; i++) {
-            Eleccion e = lista[i];
-            modeloElecciones.addRow(new Object[] {
-                e.getFecha(),
-                e.getTipo(),
-                e.getCandidato()
-            });
-        }
+    for (int i = 0; i < total; i++) {
+        Eleccion e = lista[i];
+        modeloElecciones.addRow(new Object[] {
+            e.getFecha(),
+            e.getTipo(),
+            e.getCandidato()  
+        });
+    }
 }
     
     /**
@@ -198,7 +201,24 @@ public class VentanaGestionElecciones extends javax.swing.JFrame {
 
     private void RegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarActionPerformed
         // TODO add your handling code here:
+        String fecha = Fecha.getText().trim();
+        String tipo = (String) TipoElecciones.getSelectedItem();
+        String candidato = CandidatoAsignado.getText().trim();
 
+        if (fecha.isEmpty() || candidato.isEmpty()) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, complete todos los campos.");
+            return;
+        }
+
+        Eleccion nueva = new Eleccion(fecha, tipo, candidato);
+        gestorElecciones.insertarEleccion(nueva);
+        actualizarTabla();
+        javax.swing.JOptionPane.showMessageDialog(this, "Elección registrada con éxito.");
+
+        Fecha.setText("");
+        CandidatoAsignado.setText("");
+
+        actualizarTabla();
     
   
         
@@ -206,9 +226,24 @@ public class VentanaGestionElecciones extends javax.swing.JFrame {
 
     private void EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarActionPerformed
         // TODO add your handling code here:
-        
-        
-        
+            String fecha = Fecha.getText().trim();
+
+          if (fecha.isEmpty()) {
+              javax.swing.JOptionPane.showMessageDialog(this, "Ingresa la fecha de la elección a eliminar.");
+              return;
+          }
+
+          boolean eliminado = gestorElecciones.eliminarEleccionPorFecha(fecha);
+
+          if (eliminado) {
+              javax.swing.JOptionPane.showMessageDialog(this, "Elección eliminada.");
+          } else {
+              javax.swing.JOptionPane.showMessageDialog(this, "No se encontró una elección con esa fecha.");
+          }
+
+          Fecha.setText("");
+          CandidatoAsignado.setText("");
+          actualizarTabla();      
 
         
         
@@ -217,8 +252,10 @@ public class VentanaGestionElecciones extends javax.swing.JFrame {
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         // TODO add your handling code here:
-        new MenuOperador().setVisible(true);
-         this.dispose();
+        new MenuOperador(gestorCandidato, gestorPartido, gestorMesas, 
+         gestorMiembros, gestorElecciones, gestorActas).setVisible(true);
+
+        this.dispose();
         
     }//GEN-LAST:event_VolverActionPerformed
 
@@ -253,8 +290,8 @@ public class VentanaGestionElecciones extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaGestionElecciones().setVisible(true);
-            }
+                GestionarElecciones gestorCompartido = new GestionarElecciones();
+                new VentanaGestionElecciones(gestorCompartido).setVisible(true);                }
         });
     }
 

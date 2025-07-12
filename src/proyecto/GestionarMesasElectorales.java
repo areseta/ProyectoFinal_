@@ -4,42 +4,43 @@
  */
 package proyecto;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-
 /**
  *
  * @author gilar
  */
+
 public class GestionarMesasElectorales {
-   
-    private ArrayList<MesaElectoral> lista;
 
-    public GestionarMesasElectorales() 
-    {
-        lista = new ArrayList<>();
+    private MesaElectoral[] arrayMesas;
+    private int puntero;
+
+    public GestionarMesasElectorales() {
+        arrayMesas = new MesaElectoral[100];  
+        puntero = 0;
     }
 
-    public ArrayList<MesaElectoral> getLista() 
-    {
-        return lista;
+    public void registrarMesaElectoral(MesaElectoral mesa) {
+        if (puntero < arrayMesas.length) {
+            arrayMesas[puntero] = mesa;
+            puntero++;
+            System.out.println("Mesa registrada correctamente.");
+        } else {
+            System.out.println("No hay espacio para registrar más mesas.");
+        }
     }
 
-    public void registrarMesa(MesaElectoral mesa) 
-    {
-        lista.add(mesa);
-        System.out.println("Mesa registrada correctamente.");
-    }
+    public void modificarMesa(String codigo,
+                              String nuevaUbicacion,
+                              MiembroMesa nuevoPresidente,
+                              MiembroMesa nuevoSecretario,
+                              MiembroMesa nuevoVocal) {
 
-    public void modificarMesa(String codigo, String nuevaUbicacion, MiembroMesa nuevoPresidente, MiembroMesa nuevoSecretario, MiembroMesa nuevoVocal) {
-        for (MesaElectoral m : lista) 
-        {
-            if (m.getCodigo().equalsIgnoreCase(codigo))
-            {
-                m.setUbicacion(nuevaUbicacion);
-                m.setPresidente(nuevoPresidente);
-                m.setSecretario(nuevoSecretario);
-                m.setVocal(nuevoVocal);
+        for (int i = 0; i < puntero; i++) {
+            if (arrayMesas[i].getCodigo().equalsIgnoreCase(codigo)) {
+                arrayMesas[i].setUbicacion(nuevaUbicacion);
+                arrayMesas[i].setPresidente(nuevoPresidente);
+                arrayMesas[i].setSecretario(nuevoSecretario);
+                arrayMesas[i].setVocal(nuevoVocal);
                 System.out.println("Mesa modificada correctamente.");
                 return;
             }
@@ -48,11 +49,12 @@ public class GestionarMesasElectorales {
     }
 
     public void eliminarMesa(String codigo) {
-        Iterator<MesaElectoral> it = lista.iterator();
-        while (it.hasNext()) {
-            MesaElectoral m = it.next();
-            if (m.getCodigo().equalsIgnoreCase(codigo)) {
-                it.remove();
+        for (int i = 0; i < puntero; i++) {
+            if (arrayMesas[i].getCodigo().equalsIgnoreCase(codigo)) {
+                // mover la última mesa al lugar eliminado
+                arrayMesas[i] = arrayMesas[puntero - 1];
+                arrayMesas[puntero - 1] = null;
+                puntero--;
                 System.out.println("Mesa eliminada correctamente.");
                 return;
             }
@@ -61,19 +63,35 @@ public class GestionarMesasElectorales {
     }
 
     public MesaElectoral buscarMesaPorCodigo(String codigo) {
-        for (MesaElectoral m : lista) {
-            if (m.getCodigo().equalsIgnoreCase(codigo)) {
-                return m;
+        for (int i = 0; i < puntero; i++) {
+            if (arrayMesas[i].getCodigo().equalsIgnoreCase(codigo)) {
+                return arrayMesas[i];
             }
         }
         return null;
     }
 
+    public MesaElectoral getMesa(int index) {
+    if (index >= 0 && index < puntero) {
+        return arrayMesas[index];
+    }
+    return null;
+}
+
+    
+    public MesaElectoral[] getArrayMesas() {
+        return arrayMesas;
+    }
+
+    public int getPuntero() {
+        return puntero;
+    }
+
+    
+    
     public void mostrarMesas() {
-        Iterator<MesaElectoral> it = lista.iterator();
-        while (it.hasNext()) {
-            MesaElectoral m = it.next();
-            m.mostrarDatos();
+        for (int i = 0; i < puntero; i++) {
+            arrayMesas[i].mostrarDatos();
         }
     }
 }

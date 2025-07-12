@@ -9,19 +9,34 @@ package proyecto;
  * @author gilar
  */
 public class GestionarElecciones {
-    private Eleccion[] elecciones;
+    private Eleccion[] elecciones = new Eleccion[100];
     private int puntero;
 
     public GestionarElecciones() {
-        elecciones = new Eleccion[100];
         puntero = 0;
     }
 
-    public void MeterEleccion(Eleccion e) {
+    public void insertarEleccion(Eleccion e) {
         if (puntero < elecciones.length) {
             elecciones[puntero] = e;
             puntero++;
+        } else {
+            System.out.println("No se puede agregar más elecciones (límite alcanzado).");
         }
+    }
+
+    public boolean eliminarEleccionPorFecha(String fecha) {
+        for (int i = 0; i < puntero; i++) {
+            if (elecciones[i].getFecha().equals(fecha)) {
+                for (int j = i; j < puntero - 1; j++) {
+                    elecciones[j] = elecciones[j + 1];
+                }
+                elecciones[puntero - 1] = null; // Limpiar última posición
+                puntero--;
+                return true;
+            }
+        }
+        return false;
     }
 
     public Eleccion[] getArrayElecciones() {
@@ -30,9 +45,5 @@ public class GestionarElecciones {
 
     public int getPuntero() {
         return puntero;
-    }
-
-    void setPuntero(int i) {
-        throw new UnsupportedOperationException("Not supported yet."); 
     }
 }

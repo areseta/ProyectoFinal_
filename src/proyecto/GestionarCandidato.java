@@ -62,4 +62,5 @@ public class GestionarCandidato {
         System.out.println("Candidato no encontrado.");
     }
     
+    
 }

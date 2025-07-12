@@ -15,12 +15,17 @@ public class VentanaGestionPartidos extends javax.swing.JFrame {
     /**
      * Creates new form VentanaGestionPartidos
      */
-     GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
-    DefaultTableModel modeloPartidos;
+        private GestionarCandidato gestorCandidato = new GestionarCandidato();
+        private GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+        private GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+        private GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+        private GestionarElecciones gestorElecciones = new GestionarElecciones();
+        private GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+        private DefaultTableModel modeloPartidos;
     
-    public VentanaGestionPartidos() {
+    public VentanaGestionPartidos(GestionarPartidosPoliticos gestor) {
         initComponents();
-        
+        this.gestorPartido = gestor; 
         modeloPartidos = new DefaultTableModel();
         modeloPartidos.addColumn("Nombre");
         modeloPartidos.addColumn("Sigla");
@@ -294,8 +299,10 @@ public class VentanaGestionPartidos extends javax.swing.JFrame {
 
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         // TODO add your handling code here:
-         new MenuOperador().setVisible(true);
-         this.dispose();
+        new MenuOperador(gestorCandidato, gestorPartido, gestorMesas, 
+         gestorMiembros, gestorElecciones, gestorActas).setVisible(true);
+
+        this.dispose();
         
     }//GEN-LAST:event_VolverActionPerformed
 
@@ -329,7 +336,9 @@ public class VentanaGestionPartidos extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VentanaGestionPartidos().setVisible(true);
+                 GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+                 new VentanaGestionPartidos(gestorPartido).setVisible(true);
+              
             }
         });
     }

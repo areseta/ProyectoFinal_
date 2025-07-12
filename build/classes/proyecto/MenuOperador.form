@@ -38,11 +38,10 @@
                           <Component id="jButtonMesasElectorales" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonMiembrosMesa" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="jButtonActaElectoral" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="jButtonResultados" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace pref="105" max="32767" attributes="0"/>
+              <EmptySpace pref="120" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -63,9 +62,7 @@
               <Component id="jButtonMiembrosMesa" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButtonActaElectoral" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="jButtonResultados" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="62" max="32767" attributes="0"/>
+              <EmptySpace pref="97" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -120,11 +117,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Actas Electorales"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButtonResultados">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Resultados por Candidatos"/>
-      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonActaElectoralActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

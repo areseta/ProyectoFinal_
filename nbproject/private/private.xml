@@ -4,14 +4,26 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionCandidatos.java</file>
-            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionElecciones.java</file>
-            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/MenuOperador.java</file>
             <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionPartidos.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/ActaElectoral.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarActasElectorales.java</file>
             <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionMesasElectorales.java</file>
             <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/MesaElectoral.java</file>
-            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaMiembrosMesa.java</file>
-            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/MiembroMesa.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/Candidato.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarElecciones.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/MenuPrincipal.java</file>
             <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarMiembrosMesa.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarPartidosPoliticos.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionActasElectorales.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionElecciones.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/MenuOperador.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/PartidoPolitico.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/Eleccion.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/MiembroMesa.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/VentanaGestionMiembrosMesa.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarOperadores.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/LoginOperador.java</file>
+            <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarCandidato.java</file>
             <file>file:/D:/proyectofinal/proyectofinal/src/proyecto/GestionarMesasElectorales.java</file>
         </group>
     </open-files>

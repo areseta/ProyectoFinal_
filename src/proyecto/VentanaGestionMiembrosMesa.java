@@ -16,13 +16,18 @@ public class VentanaGestionMiembrosMesa extends javax.swing.JFrame {
     /**
      * Creates new form VentanaMiembrosMesa
      */
-        GestionarMiembrosMesa gestor;
-        DefaultTableModel modeloTabla;
-    
-    public VentanaGestionMiembrosMesa(GestionarMiembrosMesa gestor) 
+        private GestionarCandidato gestorCandidato = new GestionarCandidato();
+        private GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+        private GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+        private GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+        private GestionarElecciones gestorElecciones = new GestionarElecciones();
+        private GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+        private DefaultTableModel modeloTabla;
+        
+    public VentanaGestionMiembrosMesa(GestionarMiembrosMesa gestorMiembros) 
     {
         initComponents();
-        this.gestor = gestor;
+        this.gestorMiembros = gestorMiembros;
         
         modeloTabla = new DefaultTableModel();
         modeloTabla.addColumn("Nombre");
@@ -38,8 +43,8 @@ public class VentanaGestionMiembrosMesa extends javax.swing.JFrame {
         public void actualizarTabla() {
             modeloTabla.setRowCount(0); 
 
-            MiembroMesa[] lista = gestor.getMiembros();
-            int total = gestor.getPuntero();
+            MiembroMesa[] lista = gestorMiembros.getMiembros();
+            int total = gestorMiembros.getPuntero();
 
             for (int i = 0; i < total; i++) {
                 MiembroMesa m = lista[i];
@@ -218,8 +223,10 @@ public class VentanaGestionMiembrosMesa extends javax.swing.JFrame {
     private void VolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VolverActionPerformed
         // TODO add your handling code here:
         
-         new MenuOperador().setVisible(true);
-         this.dispose();
+                new MenuOperador(gestorCandidato, gestorPartido, gestorMesas, 
+                 gestorMiembros, gestorElecciones, gestorActas).setVisible(true);
+
+                this.dispose();
         
     }//GEN-LAST:event_VolverActionPerformed
 
@@ -234,12 +241,10 @@ public class VentanaGestionMiembrosMesa extends javax.swing.JFrame {
         if (nombre.isEmpty() || apellido.isEmpty() || dni.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Por favor, completa todos los campos.");
         return;
-        
-        
     }
         
             MiembroMesa nuevo = new MiembroMesa(nombre, apellido, dni, tipo);
-            gestor.registrarMiembro(nuevo);
+            gestorMiembros.registrarMiembro(nuevo);
 
             JOptionPane.showMessageDialog(this, "Miembro registrado correctamente.");
             Nombre.setText("");
@@ -260,7 +265,7 @@ public class VentanaGestionMiembrosMesa extends javax.swing.JFrame {
             
             if (!dni.isEmpty()) 
             {
-                gestor.eliminarMiembro(dni);
+                gestorMiembros.eliminarMiembro(dni);
                 JOptionPane.showMessageDialog(this, "Miembro eliminado.");
                 actualizarTabla();
             } 
@@ -283,7 +288,7 @@ public class VentanaGestionMiembrosMesa extends javax.swing.JFrame {
                 return;
             }
 
-            gestor.modificarMiembro(dni, nombre, apellido, tipo);
+            gestorMiembros.modificarMiembro(dni, nombre, apellido, tipo);
             JOptionPane.showMessageDialog(this, "Miembro modificado correctamente.");
             actualizarTabla();  
         

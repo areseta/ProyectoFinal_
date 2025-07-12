@@ -10,20 +10,32 @@ package proyecto;
  */
 public class MenuOperador extends javax.swing.JFrame {
         
-        // esto es para que no se borre al regresar al MenuOperador
-        GestionarCandidato gestorCompartido = new GestionarCandidato();
-        GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
-        GestionarMesasElectorales gestor = new GestionarMesasElectorales();
-  
+        private GestionarCandidato gestorCandidato = new GestionarCandidato();
+        private GestionarPartidosPoliticos gestorPartido = new GestionarPartidosPoliticos();
+        private GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+        private GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+        private GestionarElecciones gestorElecciones = new GestionarElecciones();
+        private GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+        
 
 
 
     /**
      * Creates new form MenuOperador
      */
-    public MenuOperador() {
-        initComponents();
-        
+    public MenuOperador(GestionarCandidato gestorCandidato, GestionarPartidosPoliticos gestorPartido,
+        GestionarMesasElectorales gestorMesas, GestionarMiembrosMesa gestorMiembros,
+        GestionarElecciones gestorElecciones, GestionarActasElectorales gestorActas ) {
+         // esto es para que no se borre al regresar al MenuOperador
+     
+            this.gestorCandidato = gestorCandidato;
+            this.gestorPartido = gestorPartido;
+            this.gestorMesas= gestorMesas;
+            this.gestorMiembros = gestorMiembros;
+            this.gestorElecciones = gestorElecciones;
+            this.gestorActas = gestorActas;
+  
+         initComponents();
     }
 
     /**
@@ -42,7 +54,6 @@ public class MenuOperador extends javax.swing.JFrame {
         jButtonMesasElectorales = new javax.swing.JButton();
         jButtonMiembrosMesa = new javax.swing.JButton();
         jButtonActaElectoral = new javax.swing.JButton();
-        jButtonResultados = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -84,8 +95,11 @@ public class MenuOperador extends javax.swing.JFrame {
         });
 
         jButtonActaElectoral.setText("Actas Electorales");
-
-        jButtonResultados.setText("Resultados por Candidatos");
+        jButtonActaElectoral.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonActaElectoralActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,9 +118,8 @@ public class MenuOperador extends javax.swing.JFrame {
                             .addComponent(jButtonElecciones)
                             .addComponent(jButtonMesasElectorales)
                             .addComponent(jButtonMiembrosMesa)
-                            .addComponent(jButtonActaElectoral)
-                            .addComponent(jButtonResultados))))
-                .addContainerGap(105, Short.MAX_VALUE))
+                            .addComponent(jButtonActaElectoral))))
+                .addContainerGap(120, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,9 +138,7 @@ public class MenuOperador extends javax.swing.JFrame {
                 .addComponent(jButtonMiembrosMesa)
                 .addGap(18, 18, 18)
                 .addComponent(jButtonActaElectoral)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButtonResultados)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
 
         pack();
@@ -136,12 +147,8 @@ public class MenuOperador extends javax.swing.JFrame {
     private void jButtonCandidatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCandidatosActionPerformed
         // TODO add your handling code here:
         //Primer intento
-        VentanaGestionCandidatos ventana = new VentanaGestionCandidatos(gestorCompartido);
-        // abrir
-        ventana.setVisible(true);
-        // cerar
-        this.dispose(); 
-        
+        new VentanaGestionCandidatos(gestorCandidato).setVisible(true);
+        this.dispose();      
 
         
     }//GEN-LAST:event_jButtonCandidatosActionPerformed
@@ -149,8 +156,7 @@ public class MenuOperador extends javax.swing.JFrame {
     private void jButtonMesasElectoralesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMesasElectoralesActionPerformed
         // TODO add your handling code here:
         
-        VentanaGestionMesasElectorales ventana = new VentanaGestionMesasElectorales(gestor);
-        ventana.setVisible(true);
+        new VentanaGestionMesasElectorales(gestorMesas).setVisible(true);
         this.dispose(); 
         
         
@@ -159,28 +165,40 @@ public class MenuOperador extends javax.swing.JFrame {
     private void jButtonPartidoPoliticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonPartidoPoliticoActionPerformed
         // TODO add your handling code here:
         
-        VentanaGestionPartidos ventana = new VentanaGestionPartidos();
-        ventana.setVisible(true);
+        new VentanaGestionPartidos(gestorPartido).setVisible(true);
         this.dispose(); 
         
     }//GEN-LAST:event_jButtonPartidoPoliticoActionPerformed
 
     private void jButtonEleccionesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEleccionesActionPerformed
         // TODO add your handling code here:
-        VentanaGestionElecciones ventana = new VentanaGestionElecciones();     
-        ventana.setVisible(true);
+        new VentanaGestionElecciones(gestorElecciones).setVisible(true);     
         this.dispose(); 
         
     }//GEN-LAST:event_jButtonEleccionesActionPerformed
 
     private void jButtonMiembrosMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonMiembrosMesaActionPerformed
         // TODO add your handling code here:
-        GestionarMiembrosMesa gestor = new GestionarMiembrosMesa();
-        VentanaGestionMiembrosMesa ventana = new VentanaGestionMiembrosMesa(gestor);
-
-        ventana.setVisible(true);
+        new VentanaGestionMiembrosMesa(gestorMiembros).setVisible(true);
         this.dispose(); 
+        
     }//GEN-LAST:event_jButtonMiembrosMesaActionPerformed
+
+    private void jButtonActaElectoralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActaElectoralActionPerformed
+        // TODO add your handling code here:
+       /* new VentanaGestionActasElectorales(
+            gestorCandidato,
+            gestorPartido,
+            gestorMesas,
+            gestorMiembros,
+            gestorElecciones,
+            gestorActas
+        ).setVisible(true);
+        this.dispose(); 
+        */
+        
+        
+    }//GEN-LAST:event_jButtonActaElectoralActionPerformed
 
     /**
      * @param args the command line arguments
@@ -211,8 +229,18 @@ public class MenuOperador extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            //cambio para que reciba todos los parametros que debería
             public void run() {
-                new MenuOperador().setVisible(true);
+            GestionarCandidato gestorCandidatos = new GestionarCandidato();
+            GestionarPartidosPoliticos gestorPartidos = new GestionarPartidosPoliticos();
+            GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+            GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+            GestionarElecciones gestorElecciones = new GestionarElecciones();
+            GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+            
+           new MenuOperador(gestorCandidatos, gestorPartidos, gestorMesas,
+                                              gestorMiembros, gestorElecciones, 
+                                              gestorActas).setVisible(true);            
             }
         });
     }
@@ -224,7 +252,6 @@ public class MenuOperador extends javax.swing.JFrame {
     private javax.swing.JButton jButtonMesasElectorales;
     private javax.swing.JButton jButtonMiembrosMesa;
     private javax.swing.JButton jButtonPartidoPolitico;
-    private javax.swing.JButton jButtonResultados;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

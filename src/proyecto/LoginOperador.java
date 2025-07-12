@@ -27,17 +27,17 @@ public class LoginOperador extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        Ingresar = new javax.swing.JButton();
         textoCodigo = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Ingrese código de Operador");
 
-        jButton1.setText("Ingresar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Ingresar.setText("Ingresar");
+        Ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                IngresarActionPerformed(evt);
             }
         });
 
@@ -55,7 +55,7 @@ public class LoginOperador extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
+                    .addComponent(Ingresar)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(38, Short.MAX_VALUE))
@@ -68,31 +68,45 @@ public class LoginOperador extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(textoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(Ingresar)
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void IngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IngresarActionPerformed
         // TODO add your handling code here:
         
-        String codigoIngresado = textoCodigo.getText(); // o txtCodigo si renombraste
+        String codigoIngresado = textoCodigo.getText(); 
 
-    GestionarOperadores gestor = new GestionarOperadores(); // tu clase que valida
+        GestionarOperadores gestor = new GestionarOperadores(); 
 
-    if (gestor.validarCodigo(codigoIngresado)) {
-        // para abrir menú
-        new MenuOperador().setVisible(true); 
-        // para cerar el loginOperador
-        this.dispose(); 
-         } 
-    else 
-    {
-        javax.swing.JOptionPane.showMessageDialog(this, "Código incorrecto");
-     }
-    }//GEN-LAST:event_jButton1ActionPerformed
+        if (gestor.validarCodigo(codigoIngresado)) {
+          //Cambio 01 - guardado
+          GestionarCandidato gestorCandidato = new GestionarCandidato();
+          GestionarPartidosPoliticos gestorPartidos = new GestionarPartidosPoliticos();
+          GestionarMesasElectorales gestorMesas = new GestionarMesasElectorales();
+          GestionarMiembrosMesa gestorMiembros = new GestionarMiembrosMesa();
+          GestionarElecciones gestorElecciones = new GestionarElecciones();
+          GestionarActasElectorales gestorActas = new GestionarActasElectorales();
+          
+          //Cambio 02 - para pasar todos los gestores al MenuOperador
+            new MenuOperador(
+                gestorCandidato, gestorPartidos,
+                gestorMesas, gestorMiembros,
+                gestorElecciones, gestorActas ).setVisible(true);          
+
+            // para abrir menú
+            //new MenuOperador().setVisible(true); 
+            // para cerar el loginOperador
+            this.dispose(); 
+             } 
+        else 
+        {
+                    javax.swing.JOptionPane.showMessageDialog(this, "Código incorrecto");
+        }
+    }//GEN-LAST:event_IngresarActionPerformed
 
     private void textoCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoCodigoActionPerformed
         // TODO add your handling code here:
@@ -135,7 +149,7 @@ public class LoginOperador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton Ingresar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPasswordField textoCodigo;
     // End of variables declaration//GEN-END:variables
